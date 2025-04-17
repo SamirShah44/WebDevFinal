@@ -1,0 +1,18 @@
+{
+  "name": "finalproject",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+  "autoprefixer": "^10.4.20",
+  "daisyui": "^4.12.24",
+  "postcss": "^8.5.3",
+  "tailwindcss": "^3.4.17"
+},
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "scripts": {
+  "watch:css": "tailwindcss build -i ./TeenPatti/static/css/main.css -o ./TeenPatti/static/css/output.css -w"
+}
+}

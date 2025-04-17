@@ -1,0 +1,39 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# VSCode
+.vscode/
+  
+# Virtual environments
+.venv
+
+# Environment variables
+.env
+.env.prod
+
+# Static files
+django/staticfiles
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# macOS files
+.DS_Store
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Node.js modules
+node_modules/
+
+# Ruff cache
+.ruff_cache/
