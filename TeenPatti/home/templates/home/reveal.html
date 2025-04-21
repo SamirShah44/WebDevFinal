@@ -1,0 +1,38 @@
+{% extends "home/base.html" %}
+
+{% block content %}
+<head>
+    <title>Game Results</title>
+</head>
+<body>
+  <h2>Game Results</h2>
+
+  {% for p in players %}
+    <p>
+      {% if p.is_bot %}🤖{% else %}🧑{% endif %}
+      {% for c in p.card %}{{ c }} {% endfor %} - Score: {{ p.score }} (Total: {{ p.total_score }})
+    </p>
+  {% endfor %}
+
+  <h3>🏆 Winner: {% if winner.is_bot %}🤖 Bot{% else %}🧑 You{% endif %}</h3>
+
+  <br>
+
+  <div style="margin-top: 20px;">
+    <!-- 🔁 Play Again Button -->
+    <a href="/start/{{ winner.room.room_code }}/">
+      <button style="padding: 10px 20px; font-size: 16px;">🔁 Play Again</button>
+    </a>
+
+    <!-- 🧹 Reset Score Button -->
+    <a href="/reset/{{ winner.room.room_code }}/" style="margin-left: 10px;">
+      <button style="padding: 10px 20px; font-size: 16px;">🧹 Reset Scores</button>
+    </a>
+
+    <!-- 🏠 Back to Lobby -->
+    <a href="/lobby/" style="margin-left: 10px;">
+      <button style="padding: 10px 20px; font-size: 16px;">🏠 Back to Lobby</button>
+    </a>
+  </div>
+</body>
+{% endblock %}

@@ -1,0 +1,10 @@
+<h1>Welcome to Room {{ room_code }}</h1>
+
+{% if not current_player.has_played %}
+  <form method="post" action="/play/{{ room_code }}/">
+    {% csrf_token %}
+    <button type="submit">Play My Card</button>
+  </form>
+{% else %}
+  <p>Waiting for others to play...</p>
+{% endif %}

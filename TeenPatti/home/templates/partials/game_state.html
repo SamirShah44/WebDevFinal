@@ -1,0 +1,13 @@
+<h2>Game Started</h2>
+<ul>
+  {% for player in players %}
+    <li>
+      {% if player.is_bot %}🤖{% else %}🧑{% endif %}
+      {% for c in player.card %}{{ c }} {% endfor %} - Score: {{ player.score }}
+    </li>
+  {% endfor %}
+</ul>
+
+<h3>Winner:
+  {% if winner.is_bot %}🤖 Bot{% else %}🧑 Human{% endif %}
+</h3>

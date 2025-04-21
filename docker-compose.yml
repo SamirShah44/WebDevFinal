@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: django/Dockerfile
+      dockerfile: TeenPatti/Dockerfile
     command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     image: "web"
     stdin_open: true

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lobby</title>
+</head>
+<body>
+    <h1>Game Lobby</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="create">Create New Game Room</button>
+    </form>
+
+    <br><br>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="room_code" placeholder="Enter room code" required>
+        <button type="submit" name="join">Join Room</button>
+    </form>
+</body>
+</html>
