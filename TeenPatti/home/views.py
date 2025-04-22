@@ -52,7 +52,6 @@ def room(request, room_code):
     room = get_object_or_404(GameRoom, room_code=room_code)
     players = Player.objects.filter(room=room)
 
-    # TEMP: simulate the current player as first non-bot (since no login)
     current_player = players.filter(is_bot=False).first()
 
     # If no human yet, make one
@@ -63,9 +62,8 @@ def room(request, room_code):
             card=[],
             has_played=False
         )
-        players = Player.objects.filter(room=room)  # refresh
+        players = Player.objects.filter(room=room) 
 
-    # If all players have played → go to reveal
     if all(p.has_played for p in players):
         return redirect(f"/reveal/{room.room_code}/")
 
@@ -126,22 +124,31 @@ def reveal_game(request, room_code):
     room = get_object_or_404(GameRoom, room_code=room_code)
     players = Player.objects.filter(room=room)
 
-    # Calculate scores and winner
-    scores = []
+    evaluated = []
     for p in players:
-        score = evaluate_hand(p.card)
+        hand_rank = evaluate_hand(p.card)        
+        score = sum(hand_rank[1])
         p.score = score
         p.total_score += score
         p.save()
-        scores.append((p, score))
+        evaluated.append((p, hand_rank))
 
-    winner = max(scores, key=lambda x: x[1])[0]
-    GameHistory.objects.create(room=room, winner=winner)
+    # Pick the best hand:
+    #  -x[1][0] makes Trail(1) -> -1 highest, HighCard(6)->-6 lowest
+    #  x[1][1] is the list of card values, so higher ranks win ties
+    winner_player, _ = max(
+        evaluated,
+        key=lambda x: (-x[1][0], x[1][1])
+    )
+
+    GameHistory.objects.create(room=room, winner=winner_player)
 
     return render(request, "home/reveal.html", {
         "players": players,
-        "winner": winner,
+        "winner": winner_player,
     })
+
+
 
 def reset_score(request, room_code):
     room = get_object_or_404(GameRoom, room_code=room_code)
