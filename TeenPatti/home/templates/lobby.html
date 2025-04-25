@@ -5,3 +5,11 @@
 <div id="game-box">
     <!-- Cards and winner info will show up here -->
 </div>
+
+if 'create' in request.POST:
+    room = GameRoom.objects.create(room_code=str(uuid.uuid4())[:8])
+    return redirect(f"/start/{room.room_code}/")
+
+    elif 'join' in request.POST:
+    code = request.POST.get("room_code")
+    return redirect(f"/start/{code}/")

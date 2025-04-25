@@ -7,12 +7,33 @@
 <body>
   <h2>Game Results</h2>
 
-  {% for p in players %}
-    <p>
-      {% if p.is_bot %}🤖{% else %}🧑{% endif %}
-      {% for c in p.card %}{{ c }} {% endfor %} - Score: {{ p.score }} (Total: {{ p.total_score }})
-    </p>
+  evaluated = []
+for p in players:
+    rank_num, card_vals, rank_name = evaluate_hand(p.card)
+    score = sum(card_vals)
+    p.score = score
+    p.total_score += score
+    p.save()
+    evaluated.append((p, rank_num, card_vals, rank_name))
+
+# Determine winner
+winner_player, *_ = max(
+    evaluated,
+    key=lambda x: (-x[1], x[2])
+)
+
+<ul>
+  {% for player, rank_num, card_vals, rank_name in evaluated %}
+    <li>
+      {% if player == winner %}
+        🏆 <strong>{{ player }}</strong>: {{ rank_name }} ({{ player.card }}) – Score: {{ player.score }}
+      {% else %}
+        ❌ {{ player }}: {{ rank_name }} ({{ player.card }}) – Score: {{ player.score }}
+      {% endif %}
+    </li>
   {% endfor %}
+</ul>
+
 
   <h3>🏆 Winner: {% if winner.is_bot %}🤖 Bot{% else %}🧑 You{% endif %}</h3>
 

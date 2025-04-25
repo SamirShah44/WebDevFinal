@@ -2,11 +2,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('start/<str:room_code>/', views.start_game, name='start_game'),
     path('', views.home, name='home'),
-    path("lobby/", views.lobby, name="lobby"),
-    path("room/<str:room_code>/", views.room, name="room"),
-    path("play/<str:room_code>/", views.play_card, name="play_card"),
-    path("reveal/<str:room_code>/", views.reveal_game, name="reveal_game"),
-    path("reset/<str:room_code>/", views.reset_score, name="reset_score"),
+    path('lobby/', views.lobby, name='lobby'),
+    path('start/<str:room_code>/', views.start_game, name='start_game'),
+    path('room/<str:room_code>/', views.room, name='room'),
+    path('play/<str:room_code>/', views.play_card, name='play_card'),
+    path('reveal/<str:room_code>/', views.reveal_game, name='reveal_game'),
+    path('reset/<str:room_code>/', views.reset_score, name='reset_score'),
+    path('login/', views.auth_login, name='login'),
+    path('callback/', views.auth_callback, name='callback'),
+    path('logout/', views.auth_logout, name='logout'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+
 ]
