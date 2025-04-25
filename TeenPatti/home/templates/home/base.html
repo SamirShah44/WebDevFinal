@@ -12,3 +12,12 @@
         {% endblock %}
     </body>
 </html>
+
+{% if request.user.is_authenticated %}
+  Hello {{ request.user.username }} |
+  <a href="{% url 'logout' %}?next=/">Logout</a>
+
+{% else %}
+  <a href="{% url 'social:begin' 'auth0' %}">Login with Auth0</a>
+{% endif %}
+

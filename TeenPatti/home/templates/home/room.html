@@ -8,3 +8,30 @@
 {% else %}
   <p>Waiting for others to play...</p>
 {% endif %}
+
+<p>Share this room code with friends: <strong>{{ room_code }}</strong></p>
+
+room = GameRoom.objects.filter(room_code=code).first()
+if room:
+    return redirect(f"/start/{code}/")
+else:
+    messages.error(request, "Room code not found")
+    return redirect("/lobby/")
+
+    <script>
+      setInterval(() => {
+          location.reload();  // auto-refresh every 3 seconds
+      }, 3000);
+  </script>
+  
+  <li>{{ p.user.username|default:"Guest" }} -
+    {% if p.has_played %}
+      ✅ Played
+    {% else %}
+      ⏳ Waiting
+    {% endif %}
+  </li>
+  
+  
+  if not players.filter(user=request.user).exists():
+    Player.objects.create(user=request.user, room=room, is_bot=False)

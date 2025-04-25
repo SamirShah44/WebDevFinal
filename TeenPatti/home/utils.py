@@ -7,21 +7,20 @@ def generate_deck():
     return [rank + suit for suit in SUITS for rank in RANKS]
 
 def deal_cards(num_players):
+    """Shuffles and deals cards to the given number of players."""
     suits = ['♠', '♥', '♦', '♣']
     ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
-    deck = [f"{r}{s}" for s in suits for r in ranks]
+    deck = [rank + suit for rank in ranks for suit in suits]  # 52 cards
 
-    random.shuffle(deck)  # full shuffle
+    random.shuffle(deck)
 
     hands = []
-    for _ in range(num_players):
-        hand = random.sample(deck, 3)
-        # remove dealt cards from deck
-        for card in hand:
-            deck.remove(card)
+    for i in range(num_players):
+        hand = [deck.pop(), deck.pop(), deck.pop()]  # 3 cards per player
         hands.append(hand)
 
     return hands
+
 
 
 def evaluate_hand(hand):

@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for FinalProject project.
 
@@ -17,17 +19,18 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
+environ.Env.read_env(BASE_DIR / ".env") 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-y!8tcasb33^q=2^%ifbm5)m$6#bth5(1x6s3v^&l#b9bzq&7cx'
-# SECRET_KEY = env.str("DJANGO_SECRET_KEY")
-SECRET_KEY = 'u!_4=nvo76mvo@1*=60-50cxec2%kv!p577af@*q3p71p+7a@%'
+SECRET_KEY = env.str("DJANGO_SECRET_KEY")
+# SECRET_KEY = 'u!_4=nvo76mvo@1*=60-50cxec2%kv!p577af@*q3p71p+7a@%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[""])
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["*"])
 
 
 # Application definition
@@ -40,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
+
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -82,11 +87,35 @@ WSGI_APPLICATION = 'FinalProject.wsgi.application'
 #     }
 # }
 DATABASES = {
-	"default": env.db(),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.auth0.Auth0OAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_TRAILING_SLASH = False  # Auth0 does not need the trailing slash
+SOCIAL_AUTH_AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
+SOCIAL_AUTH_AUTH0_KEY = os.environ.get('AUTH0_CLIENT_ID')
+SOCIAL_AUTH_AUTH0_SECRET = os.environ.get('AUTH0_CLIENT_SECRET')
+SOCIAL_AUTH_AUTH0_SCOPE = [
+    'openid',
+    'profile',
+    'email'
+]
+
+LOGIN_URL = "/login/auth0"
+LOGIN_REDIRECT_URL = '/dashboard'
+LOGOUT_REDIRECT_URL = '/'
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

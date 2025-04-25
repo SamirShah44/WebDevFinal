@@ -7,12 +7,29 @@
 <body>
   <h2>Game Results</h2>
 
-  {% for p in players %}
-    <p>
-      {% if p.is_bot %}🤖{% else %}🧑{% endif %}
-      {% for c in p.card %}{{ c }} {% endfor %} - Score: {{ p.score }} (Total: {{ p.total_score }})
-    </p>
-  {% endfor %}
+  <ul>
+    {% for player, rank_num, card_vals, rank_name in evaluated %}
+      <li>
+        {% if player == winner %}
+          🏆 <strong>
+            {% if player.is_bot %}
+              🤖 Bot {{ forloop.counter }}
+            {% else %}
+              {{ player.user.email }}
+            {% endif %}
+          </strong>: {{ rank_name }} ({{ player.card }}) – Score: {{ player.score }}
+        {% else %}
+          ❌ {% if player.is_bot %}
+                🤖 Bot {{ forloop.counter }}
+              {% else %}
+                {{ player.user.email }}
+              {% endif %}:
+          {{ rank_name }} ({{ player.card }}) – Score: {{ player.score }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  
 
   <h3>🏆 Winner: {% if winner.is_bot %}🤖 Bot{% else %}🧑 You{% endif %}</h3>
 
