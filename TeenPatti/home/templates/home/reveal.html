@@ -29,20 +29,30 @@
       </li>
     {% endfor %}
   </ul>
-  
 
-  <h3>🏆 Winner: {% if winner.is_bot %}🤖 Bot{% else %}🧑 You{% endif %}</h3>
+  <!-- 🚀 Correct Winner Line -->
+  <h3>🏆 Winner: 
+    {% if winner.is_bot %}
+      🤖 Bot
+    {% else %}
+      {% if winner.user == request.user %}
+        🧑 You
+      {% else %}
+        {{ winner.user.email }}
+      {% endif %}
+    {% endif %}
+  </h3>
 
   <br>
 
   <div style="margin-top: 20px;">
     <!-- 🔁 Play Again Button -->
-    <a href="/start/{{ winner.room.room_code }}/">
+    <a href="/start/{{ room_code }}/">
       <button style="padding: 10px 20px; font-size: 16px;">🔁 Play Again</button>
     </a>
 
     <!-- 🧹 Reset Score Button -->
-    <a href="/reset/{{ winner.room.room_code }}/" style="margin-left: 10px;">
+    <a href="/reset/{{ room_code }}/" style="margin-left: 10px;">
       <button style="padding: 10px 20px; font-size: 16px;">🧹 Reset Scores</button>
     </a>
 

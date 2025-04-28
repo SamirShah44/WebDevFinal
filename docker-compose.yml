@@ -1,43 +1,46 @@
-version: "3.9"  # it's good practice to define version
+  version: "3.9"  # it's good practice to define version
 
-services:
-  web:
-    build:
-      context: .
-      dockerfile: TeenPatti/Dockerfile
-    command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    image: "web"
-    stdin_open: true
-    tty: true
-    volumes:
-      - ./TeenPatti:/app
-      - ./TeenPatti/staticfiles:/app/staticfiles
-    ports:
-      - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
-    env_file:
-      - .env
-    environment:
-      - PYTHONPATH=/app
+  services:
+    web:
+      build:
+        context: .
+        dockerfile: TeenPatti/Dockerfile
+      command: sh -c "python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+      image: "web"
+      stdin_open: true
+      tty: true
+      volumes:
+        - ./TeenPatti:/app
+        - ./TeenPatti/staticfiles:/app/staticfiles
+      ports:
+        - "8000:8000"
+      depends_on:
+        db:
+          condition: service_healthy
+      env_file:
+        - .env
+      environment:
+        - PYTHONPATH=/app
+      dns:   
+      - 8.8.8.8
+      - 8.8.4.4
 
-  db:
-    image: postgres:15-alpine
-    expose:
-      - "5449"
-    ports:
-      - "5449:5449"
-    env_file:
-      - .env
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-      timeout: 5s
-      interval: 1s
-      retries: 10
+    db:
+      image: postgres:15-alpine
+      expose:
+        - "5449"
+      ports:
+        - "5449:5449"
+      env_file:
+        - .env
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+        timeout: 5s
+        interval: 1s
+        retries: 10
 
-volumes:
-  postgres_data:
-  django_logs:
+  volumes:
+    postgres_data:
+    django_logs:

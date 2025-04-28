@@ -1,37 +1,46 @@
-<h1>Welcome to Room {{ room_code }}</h1>
+{% extends "home/base.html" %}
+{% block content %}
+<h1>Room: {{ room_code }}</h1>
 
-{% if not current_player.has_played %}
-  <form method="post" action="/play/{{ room_code }}/">
-    {% csrf_token %}
-    <button type="submit">Play My Card</button>
-  </form>
+{% if not waiting_for_more_players %}
+  {% if not current_player.has_played %}
+    <form method="post" action="/play/{{ room_code }}/">
+      {% csrf_token %}
+      <button type="submit">Play My Card</button>
+    </form>
+  {% else %}
+    <p>Waiting for others to play...</p>
+  {% endif %}
 {% else %}
-  <p>Waiting for others to play...</p>
+  <p>Waiting for players to join... ({{ players|length }}/3)</p>
 {% endif %}
 
-<p>Share this room code with friends: <strong>{{ room_code }}</strong></p>
+{% if player_count < 3 %}
+<form method="post" action="/add-bot/{{ room_code }}/">
+  {% csrf_token %}
+  <button type="submit" style="padding: 10px 20px;">➕ Add Bot</button>
+</form>
+{% endif %}
 
-room = GameRoom.objects.filter(room_code=code).first()
-if room:
-    return redirect(f"/start/{code}/")
-else:
-    messages.error(request, "Room code not found")
-    return redirect("/lobby/")
+<h3>Players:</h3>
+<ul>
+  {% for p in players %}
+    <li>
+      {% if p.is_bot %}
+        🤖 Bot
+      {% elif p.user %}
+        {{ p.user.username|default:p.user.email }}
+      {% else %}
+        Guest
+      {% endif %}
+      - {% if p.has_played %} ✅ Played {% else %} ⏳ Waiting {% endif %}
+    </li>
+  {% endfor %}
+</ul>
 
-    <script>
-      setInterval(() => {
-          location.reload();  // auto-refresh every 3 seconds
-      }, 3000);
-  </script>
-  
-  <li>{{ p.user.username|default:"Guest" }} -
-    {% if p.has_played %}
-      ✅ Played
-    {% else %}
-      ⏳ Waiting
-    {% endif %}
-  </li>
-  
-  
-  if not players.filter(user=request.user).exists():
-    Player.objects.create(user=request.user, room=room, is_bot=False)
+<script>
+  setInterval(() => {
+      location.reload();
+  }, 3000);
+</script>
+{% endblock %}

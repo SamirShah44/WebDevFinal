@@ -13,5 +13,6 @@ urlpatterns = [
     path('callback/', views.auth_callback, name='callback'),
     path('logout/', views.auth_logout, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('add-bot/<str:room_code>/', views.add_bot, name='add_bot'),
 
 ]

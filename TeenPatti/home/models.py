@@ -6,6 +6,10 @@ class GameRoom(models.Model):
     room_code = models.CharField(max_length=8, unique=True, default=uuid.uuid4)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    game_started = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.room_code
 
 class Player(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
