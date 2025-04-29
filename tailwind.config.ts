@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss';
 import daisyui from 'daisyui';
 
 export default {
-  content: ["./django/templates/**/*.html", "./django/**/templates/**/*.html"],
+  content: ["./TeenPatti/templates/**/*.html", "./TeenPatti/**/templates/**/*.html"],
   darkMode: "media",
   theme: {
     extend: {},

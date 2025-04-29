@@ -1,22 +1,53 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Lobby</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game Lobby | Teen Patti</title>
+  <!-- point to your new lobby.css -->
+  <link rel="stylesheet" href="{% static 'css/lobby.css' %}" />
 </head>
 <body>
-    <h1>Game Lobby</h1>
 
-    <form method="post">
+  <header class="lobby-header">
+    <h1>♠️♥️Teen Patti Lobby♦️♣️</h1>
+  </header>
+
+  <main class="lobby-main">
+    <section class="card">
+      <h2>Create a Game Room</h2>
+      <form method="post">
         {% csrf_token %}
-        <button type="submit" name="create">Create New Game Room</button>
-    </form>
+        <button type="submit" name="create" class="btn btn-primary">
+          Create New Game Room
+        </button>
+      </form>
+    </section>
 
-    <br><br>
-
-    <form method="post">
+    <section class="card">
+      <h2>Join an Existing Room</h2>
+      <form method="post" class="join-form">
         {% csrf_token %}
-        <input type="text" name="room_code" placeholder="Enter room code" required>
-        <button type="submit" name="join">Join Room</button>
-    </form>
+        <input
+          type="text"
+          name="room_code"
+          placeholder="Enter room code"
+          required
+          class="input"
+        />
+        <button type="submit" name="join" class="btn btn-secondary">
+          Join Room
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="lobby-footer">
+    © 2025 Teen Patti Game
+  </footer>
+
 </body>
 </html>
+
+

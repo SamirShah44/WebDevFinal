@@ -12,3 +12,7 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cards-inline {
+    @apply flex space-x-1 whitespace-nowrap;
+  }

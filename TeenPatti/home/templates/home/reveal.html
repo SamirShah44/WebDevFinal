@@ -1,36 +1,45 @@
 {% extends "home/base.html" %}
+{% load static card_svg %}
 
+{% block title %}Game Results | Teen Patti{% endblock %}
 {% block content %}
-<head>
-    <title>Game Results</title>
-</head>
-<body>
-  <h2>Game Results</h2>
+<div class="container mx-auto py-8">
 
-  <ul>
-    {% for player, rank_num, card_vals, rank_name in evaluated %}
-      <li>
-        {% if player == winner %}
-          🏆 <strong>
-            {% if player.is_bot %}
-              🤖 Bot {{ forloop.counter }}
-            {% else %}
-              {{ player.user.email }}
-            {% endif %}
-          </strong>: {{ rank_name }} ({{ player.card }}) – Score: {{ player.score }}
-        {% else %}
-          ❌ {% if player.is_bot %}
-                🤖 Bot {{ forloop.counter }}
-              {% else %}
-                {{ player.user.email }}
-              {% endif %}:
-          {{ rank_name }} ({{ player.card }}) – Score: {{ player.score }}
-        {% endif %}
-      </li>
+  <!-- Header -->
+  <h1 class="text-3xl font-bold mb-6">Game Results</h1>
+
+  <!-- Each player’s hand -->
+  <ul class="space-y-8">
+    {% for p in players %}
+    <li class="flex items-start space-x-6 bg-base-100 p-4 rounded-lg shadow">
+
+      <!-- Avatar & Label -->
+      <div class="flex flex-col items-center w-20">
+        <div class="w-12 h-12 bg-base-200 rounded-full flex items-center justify-center text-2xl">
+          {% if p.is_bot %}🤖{% else %}🧑{% endif %}
+          <span class="mt-2 text-sm font-medium">
+            {% if p.is_bot %}Bot {{ forloop.counter }}{% else %}{{ p.user.username }}{% endif %}
+          </span>
+        </div>
+      </div>
+
+      <!-- CARDS SIDE-BY-SIDE -->
+      <div class="flex gap-2" style="display: flex; gap: 0.5rem;">
+        {% for c in p.card %}
+          {% card_svg c 48 72 %}
+        {% endfor %}
+      </div>
+
+      <!-- Score + Total -->
+      <div class="ml-auto text-lg font-semibold">
+        Score: {{ p.score }}<br>
+        <span class="text-sm text-gray-500">Total: {{ p.total_score }}</span>
+      </div>
+
+    </li>
     {% endfor %}
   </ul>
 
-  <!-- 🚀 Correct Winner Line -->
   <h3>🏆 Winner: 
     {% if winner.is_bot %}
       🤖 Bot
@@ -43,23 +52,18 @@
     {% endif %}
   </h3>
 
-  <br>
-
-  <div style="margin-top: 20px;">
-    <!-- 🔁 Play Again Button -->
-    <a href="/start/{{ room_code }}/">
-      <button style="padding: 10px 20px; font-size: 16px;">🔁 Play Again</button>
+  <!-- Actions -->
+  <div class="mt-6 flex flex-wrap gap-4">
+    <a href="{% url 'start_game' room_code=winner.room.room_code %}" class="btn btn-primary">
+      🔁 Play Again
     </a>
-
-    <!-- 🧹 Reset Score Button -->
-    <a href="/reset/{{ room_code }}/" style="margin-left: 10px;">
-      <button style="padding: 10px 20px; font-size: 16px;">🧹 Reset Scores</button>
+    <a href="{% url 'reset_score' room_code=winner.room.room_code %}" class="btn btn-warning">
+      🧹 Reset Scores
     </a>
-
-    <!-- 🏠 Back to Lobby -->
-    <a href="/lobby/" style="margin-left: 10px;">
-      <button style="padding: 10px 20px; font-size: 16px;">🏠 Back to Lobby</button>
+    <a href="{% url 'lobby' %}" class="btn btn-outline">
+      🏠 Back to Lobby
     </a>
   </div>
-</body>
+
+</div>
 {% endblock %}

@@ -13,6 +13,6 @@
     "typescript": "^5"
   },
   "scripts": {
-  "watch:css": "tailwindcss build -i ./TeenPatti/static/css/main.css -o ./TeenPatti/static/css/output.css -w"
+  "watch:css": "tailwindcss -i ./TeenPatti/static/css/main.css -o ./TeenPatti/static/css/output.css --content ./TeenPatti/home/templates/**/*.html --content ./TeenPatti/home/**/templates/**/*.html --w"
 }
 }

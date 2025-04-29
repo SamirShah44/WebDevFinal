@@ -1,46 +1,89 @@
 {% extends "home/base.html" %}
+{% load static card_svg %}
+{% block title %}Room {{ room_code }} | Teen Patti{% endblock %}
+
 {% block content %}
-<h1>Room: {{ room_code }}</h1>
 
-{% if not waiting_for_more_players %}
-  {% if not current_player.has_played %}
-    <form method="post" action="/play/{{ room_code }}/">
-      {% csrf_token %}
-      <button type="submit">Play My Card</button>
-    </form>
-  {% else %}
-    <p>Waiting for others to play...</p>
-  {% endif %}
-{% else %}
-  <p>Waiting for players to join... ({{ players|length }}/3)</p>
-{% endif %}
+<div class="text-center mb-6">
+  <h1 class="text-3xl font-bold">Room {{ room_code }}</h1>
+</div>
 
-{% if player_count < 3 %}
-<form method="post" action="/add-bot/{{ room_code }}/">
-  {% csrf_token %}
-  <button type="submit" style="padding: 10px 20px;">➕ Add Bot</button>
-</form>
-{% endif %}
-
-<h3>Players:</h3>
-<ul>
+<!-- Players List -->
+<ul class="flex flex-col items-center space-y-4 mb-8">
   {% for p in players %}
-    <li>
-      {% if p.is_bot %}
-        🤖 Bot
-      {% elif p.user %}
-        {{ p.user.username|default:p.user.email }}
-      {% else %}
-        Guest
-      {% endif %}
-      - {% if p.has_played %} ✅ Played {% else %} ⏳ Waiting {% endif %}
+    <li class="flex items-center space-x-3 text-lg">
+      <!-- All inside ONE flex -->
+      <div class="flex items-center space-x-2">
+        <!-- Avatar -->
+        <span class="text-2xl">
+          {% if p.is_bot %}
+            🤖
+          {% elif p.user %}
+            🧑
+          {% else %}
+            👤
+          {% endif %}
+        </span>
+
+        <!-- Username -->
+        <span class="font-semibold">
+          {% if p.is_bot %}
+            Bot {{ forloop.counter }}
+          {% elif p.user %}
+            {{ p.user.username|default:p.user.email }}
+          {% else %}
+            Guest
+          {% endif %}
+        </span>
+
+        <!-- Status -->
+        <span class="text-sm text-gray-400">
+          {% if p.has_played %}
+            ✅ Played
+          {% else %}
+            ⏳ Waiting
+          {% endif %}
+        </span>
+      </div>
     </li>
   {% endfor %}
 </ul>
+
+
+<!-- Deck in center -->
+<div class="flex justify-center mb-8">
+  <div class="w-16 h-24 bg-blue-600 rounded-lg border-2 border-black"></div>
+</div>
+
+<!-- Play Button Logic -->
+<div class="max-w-xs mx-auto space-y-4">
+  {% if not waiting_for_more_players %}
+    {% if not current_player.has_played %}
+      <form method="post" action="/play/{{ room_code }}/">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary w-full">Play My Card</button>
+      </form>
+    {% else %}
+      <div class="text-center text-gray-400">Waiting for others to play...</div>
+    {% endif %}
+  {% else %}
+    <div class="text-center text-gray-400">
+      Waiting for players to join... ({{ players|length }}/3)
+    </div>
+  {% endif %}
+
+  {% if player_count < 3 %}
+    <form method="post" action="/add-bot/{{ room_code }}/">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-secondary w-full">➕ Add Bot</button>
+    </form>
+  {% endif %}
+</div>
 
 <script>
   setInterval(() => {
       location.reload();
   }, 3000);
 </script>
-{% endblock %}
+
+{% endblock %} 

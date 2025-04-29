@@ -1,23 +1,39 @@
 {% load static %}
 
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}My Homepage{% endblock %}</title>
-        <link rel="stylesheet" href="{% static 'css/output.css' %}">
-    </head>
-    <body>
-        {% block content %}
-        {% endblock %}
-    </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Teen Patti{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body class="min-h-screen flex flex-col bg-base-200">
+
+  <!-- Navbar -->
+  <header class="navbar bg-base-100 px-4 py-2 shadow-md">
+    <div class="flex-1">
+      <a href="{% url 'lobby' %}" class="btn btn-ghost normal-case text-xl">
+        ♠️♥️Teen Patti♦️♣️
+      </a>
+    </div>
+    <div class="flex-none">
+      {% if request.user.is_authenticated %}
+        <span class="mr-4">Hello, {{ request.user.username }}</span>
+        <a href="{% url 'lobby' %}" class="btn btn-sm btn-secondary mr-2">Lobby</a>
+        <a href="{% url 'logout' %}?next=/" class="btn btn-sm btn-outline">Logout</a>
+      {% else %}
+        <a href="{% url 'social:begin' 'auth0' %}" class="btn btn-sm btn-primary">
+          Login with Auth0
+        </a>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <main class="flex-1 p-4">
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
 </html>
-
-{% if request.user.is_authenticated %}
-  Hello {{ request.user.username }} |
-  <a href="{% url 'logout' %}?next=/">Logout</a>
-
-{% else %}
-  <a href="{% url 'social:begin' 'auth0' %}">Login with Auth0</a>
-{% endif %}
-

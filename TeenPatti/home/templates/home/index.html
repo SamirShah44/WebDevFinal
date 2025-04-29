@@ -1,16 +1,45 @@
-
 {% extends "home/base.html" %}
 
+{% block title %}Login | Teen Patti{% endblock %}
+
 {% block content %}
-<head>
-    <title>Teen Patti Login</title>
-</head>
-<body>
-    <h1>Welcome to Teen Patti</h1>
-    <p>This will be the login screen later.</p>
-    <a href="/lobby/">Skip login → Start game (demo)</a>
-</body>
+<div class="min-h-screen flex items-center justify-center bg-base-200 p-4">
+  <div class="card w-full max-w-md shadow-xl bg-base-100">
+    <div class="card-body p-8">
 
+      <!-- Title -->
+      <h1 class="text-3xl font-bold text-center mb-4">Welcome to Teen Patti</h1>
+      <p class="text-center mb-8 text-gray-500">
+        Please login with Auth0 to continue
+      </p>
 
+      <!-- Auth0 Login Button -->
+      <div class="flex justify-center">
+        <a href="{% url 'social:begin' 'auth0' %}" class="btn btn-primary btn-lg w-full">
+          🔒 Login with Auth0
+        </a>
+      </div>
 
+    </div>
+  </div>
+</div>
 {% endblock %}
+
+
+{% comment %} {% extends "home/base.html" %}
+
+{% block title %}Login | Teen Patti{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-base-200">
+  <div class="card w-full max-w-md shadow-xl bg-white">
+    <div class="card-body p-8">
+      <h1 class="text-3xl font-bold text-center mb-6">Welcome to Teen Patti</h1>
+      <p class="text-center mb-8 text-gray-500">Please login to continue</p>
+      
+      <div class="flex justify-center">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% endcomment %}

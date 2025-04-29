@@ -12,3 +12,92 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.cards-inline {
+    @apply flex space-x-1 whitespace-nowrap;
+  }
+
+.room-header {
+  background: var(--clr-card);
+  padding: calc(var(--spacing) * 1.5);
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: var(--spacing);
+}
+
+.room-header h1 {
+  font-size: 2rem;
+  color: var(--clr-text);
+}
+
+.room-main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+}
+
+.players-card {
+  background: var(--clr-card);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  padding: var(--spacing);
+}
+
+.players-card h2 {
+  margin-bottom: var(--spacing);
+  font-size: 1.25rem;
+  color: var(--clr-text);
+}
+
+.players-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.player-item {
+  background: var(--clr-bg);
+  border-radius: var(--radius);
+  padding: 0.5rem var(--spacing);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status {
+  font-size: 0.875rem;
+  color: var(--clr-muted);
+}
+
+.deck-container {
+  display: flex;
+  justify-content: center;
+}
+
+.deck {
+  width: 96px;
+  height: 144px;
+  border: 2px solid #ccc;
+  border-radius: var(--radius);
+  background: transparent;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+}
+
+/* Buttons reuse .btn, .btn-primary, .btn-secondary from your lobby.css */
+.btn-block {
+  width: 100%;}
