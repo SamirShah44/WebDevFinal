@@ -1,13 +1,25 @@
-<h2>Game Started</h2>
-<ul>
-  {% for player in players %}
-    <li>
-      {% if player.is_bot %}🤖{% else %}🧑{% endif %}
-      {% for c in player.card %}{{ c }} {% endfor %} - Score: {{ player.score }}
-    </li>
-  {% endfor %}
-</ul>
-
-<h3>Winner:
-  {% if winner.is_bot %}🤖 Bot{% else %}🧑 Human{% endif %}
-</h3>
+{% extends "home/base.html" %}
+{% load static card_svg %}
+{% block title %}Game State | Teen Patti{% endblock %}
+{% block content %}
+<div class="card w-full max-w-lg mx-auto shadow-lg bg-base-100">
+  <div class="card-body">
+    <h2 class="card-title">Game Started</h2>
+    <ul class="list-disc list-inside mt-4 space-y-2">
+      {% for player in players %}
+      <li class="flex items-center space-x-3">
+        <div class="flex space-x-2">
+          {% for c in player.card %}
+            {% card_svg c 40 60 %}
+          {% endfor %}
+        </div>
+        <span>Score: {{ player.score }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    <h3 class="mt-6 font-bold">
+      Winner: {% if winner.is_bot %}🤖 Bot{% else %}🧑 Human{% endif %}
+    </h3>
+  </div>
+</div>
+{% endblock %}

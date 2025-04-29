@@ -1,0 +1,21 @@
+{% load static %}
+<div class="card w-full max-w-md mx-auto shadow-lg bg-base-100 text-center">
+  <div class="card-body">
+    <h2 class="card-title mb-4">Room {{ room_code }}</h2>
+
+    {% if not current_player.has_played %}
+      <!-- card backs -->
+      <div class="flex justify-center space-x-2 mb-6">
+        {% for _ in current_player.card %}
+          <div class="w-[48px] h-[72px] bg-blue-500 rounded-lg border-2 border-black"></div>
+        {% endfor %}
+      </div>
+      <form method="post" action="/play/{{ room_code }}/">
+        {% csrf_token %}
+        <button class="btn btn-secondary w-full">Play My Card</button>
+      </form>
+    {% else %}
+      <p class="text-gray-600 mt-4">Waiting for others to play…</p>
+    {% endif %}
+  </div>
+</div>

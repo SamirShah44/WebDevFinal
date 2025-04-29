@@ -1,14 +1,31 @@
-
 {% extends "home/base.html" %}
-
+{% block title %}Login | Teen Patti{% endblock %}
 {% block content %}
-<head>
-    <title>Teen Patti Login</title>
-</head>
-<body>
-    <h1>Welcome to Teen Patti</h1>
-    <p>This will be the login screen later.</p>
-    <a href="/lobby/">Skip login → Start game (demo)</a>
-</body>
-
+<div class="hero min-h-[70vh] bg-base-200">
+  <div class="hero-content w-full max-w-md">
+    <div class="card w-full shadow-xl bg-white">
+      <div class="card-body">
+        <h1 class="card-title justify-center">Welcome to Teen Patti</h1>
+        <form method="post" class="space-y-4">
+          {% csrf_token %}
+          <div class="form-control">
+            <input type="text" name="username" placeholder="Username"
+                   required class="input input-bordered" />
+          </div>
+          <div class="form-control">
+            <input type="password" name="password" placeholder="Password"
+                   required class="input input-bordered" />
+          </div>
+          <div class="form-control mt-4">
+            <button type="submit" class="btn btn-primary w-full">Login</button>
+          </div>
+        </form>
+        <div class="divider">OR</div>
+        <a href="/lobby/" class="btn btn-secondary w-full">
+          Skip Login → Start Game (Demo)
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

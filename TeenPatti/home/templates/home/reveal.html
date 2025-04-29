@@ -1,38 +1,66 @@
 {% extends "home/base.html" %}
+{% load static card_svg %}
 
+{% block title %}Game Results | Teen Patti{% endblock %}
 {% block content %}
-<head>
-    <title>Game Results</title>
-</head>
-<body>
-  <h2>Game Results</h2>
+<div class="container mx-auto py-8">
+  <!-- Header -->
+  <h1 class="text-3xl font-bold mb-6">Game Results</h1>
 
-  {% for p in players %}
-    <p>
-      {% if p.is_bot %}🤖{% else %}🧑{% endif %}
-      {% for c in p.card %}{{ c }} {% endfor %} - Score: {{ p.score }} (Total: {{ p.total_score }})
-    </p>
-  {% endfor %}
+  <!-- Each player's hand -->
+  <ul class="space-y-8">
+    {% for p in players %}
+    <li class="flex items-start space-x-6 bg-base-100 p-4 rounded-lg shadow">
+      <!-- 1) Player icon & label -->
+      <div class="flex flex-col items-center w-20">
+        <div class="w-12 h-12 rounded-full bg-base-200 flex items-center justify-center text-2xl">
+          {% if p.is_bot %}🤖{% else %}🧑{% endif %}
+        </div>
+        <span class="mt-2 text-sm font-medium">
+          {% if p.is_bot %}Bot {{ forloop.counter }}{% else %}You{% endif %}
+        </span>
+      </div>
 
-  <h3>🏆 Winner: {% if winner.is_bot %}🤖 Bot{% else %}🧑 You{% endif %}</h3>
+      <!-- 2) Cards as inline SVG -->
+      <div class="flex space-x-2">
+        {% for c in p.card %}
+          {% card_svg c 48 72 %}
+        {% endfor %}
+      </div>
 
-  <br>
+      <!-- 3) Score -->
+      <div class="ml-auto text-lg font-semibold">
+        Score: {{ p.score }}<br>
+        <span class="text-sm text-gray-500">Total: {{ p.total_score }}</span>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
 
-  <div style="margin-top: 20px;">
-    <!-- 🔁 Play Again Button -->
-    <a href="/start/{{ winner.room.room_code }}/">
-      <button style="padding: 10px 20px; font-size: 16px;">🔁 Play Again</button>
+  <!-- Winner banner -->
+  <div class="mt-8 text-2xl font-bold flex items-center space-x-2">
+    <span>🏆 Winner:</span>
+    <span class="text-2xl">
+      {% if winner.is_bot %}🤖 Bot{% else %}🧑 You{% endif %}
+    </span>
+  </div>
+
+  <!-- Actions -->
+  <div class="mt-6 flex flex-wrap gap-4">
+    <!-- Play Again -->
+    <a href="{% url 'start_game' room_code=winner.room.room_code %}"
+       class="btn btn-primary">
+      🔁 Play Again
     </a>
-
-    <!-- 🧹 Reset Score Button -->
-    <a href="/reset/{{ winner.room.room_code }}/" style="margin-left: 10px;">
-      <button style="padding: 10px 20px; font-size: 16px;">🧹 Reset Scores</button>
+    <!-- Reset Scores -->
+    <a href="{% url 'reset_score' room_code=winner.room.room_code %}"
+       class="btn btn-warning">
+      🧹 Reset Scores
     </a>
-
-    <!-- 🏠 Back to Lobby -->
-    <a href="/lobby/" style="margin-left: 10px;">
-      <button style="padding: 10px 20px; font-size: 16px;">🏠 Back to Lobby</button>
+    <!-- Back to Lobby -->
+    <a href="{% url 'lobby' %}" class="btn btn-outline">
+      🏠 Back to Lobby
     </a>
   </div>
-</body>
+</div>
 {% endblock %}

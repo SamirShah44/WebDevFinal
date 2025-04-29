@@ -1,10 +1,48 @@
-<h1>Welcome to Room {{ room_code }}</h1>
+{% extends "home/base.html" %}
+{% load static card_svg %}
 
-{% if not current_player.has_played %}
-  <form method="post" action="/play/{{ room_code }}/">
-    {% csrf_token %}
-    <button type="submit">Play My Card</button>
-  </form>
-{% else %}
-  <p>Waiting for others to play...</p>
-{% endif %}
+{% block title %}Room {{ room_code }} | Teen Patti{% endblock %}
+{% block content %}
+
+<div class="text-center mb-6">
+  <h1 class="text-3xl font-bold">Room {{ room_code }}</h1>
+</div>
+
+<!-- 1) List Players -->
+<ul class="flex justify-center space-x-4 mb-8">
+  {% for p in players %}
+    <li class="flex flex-col items-center">
+      <div class="w-12 h-12 rounded-full bg-base-200 flex items-center justify-center">
+        {% if p.is_bot %}
+          🤖
+        {% else %}
+          🧑
+        {% endif %}
+      </div>
+      <span class="mt-1 text-sm">
+        {% if p.is_bot %}Bot {{ forloop.counter }}{% else %}You{% endif %}
+      </span>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- 2) Deck Back in Center -->
+<div class="flex justify-center mb-8">
+  <div class="w-16 h-24 bg-blue-600 rounded-lg border-2 border-black"></div>
+</div>
+
+<!-- 3) Join or Play Button -->
+<form method="post" class="max-w-xs mx-auto">
+  {% csrf_token %}
+  {% if not human_joined %}
+    <button name="join" class="btn btn-primary w-full">
+      Join Room
+    </button>
+  {% else %}
+    <button name="play" class="btn btn-secondary w-full">
+      Play (Deal Cards)
+    </button>
+  {% endif %}
+</form>
+
+{% endblock %}

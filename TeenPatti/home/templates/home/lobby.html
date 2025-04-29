@@ -1,22 +1,28 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lobby</title>
-</head>
-<body>
-    <h1>Game Lobby</h1>
-
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" name="create">Create New Game Room</button>
+{% extends "home/base.html" %}
+{% block title %}Lobby | Teen Patti{% endblock %}
+{% block content %}
+<div class="card w-full max-w-lg mx-auto shadow-lg bg-base-100">
+  <div class="card-body">
+    <h2 class="card-title">Game Lobby</h2>
+    <form method="post" class="mt-4">
+      {% csrf_token %}
+      <button type="submit" name="create"
+              class="btn btn-primary w-full">
+        Create New Game Room
+      </button>
     </form>
-
-    <br><br>
-
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="room_code" placeholder="Enter room code" required>
-        <button type="submit" name="join">Join Room</button>
+    <form method="post" class="mt-4">
+      {% csrf_token %}
+      <div class="form-control">
+        <input type="text" name="room_code"
+               placeholder="Enter room code" required
+               class="input input-bordered w-full" />
+      </div>
+      <button type="submit" name="join"
+              class="btn btn-secondary w-full mt-2">
+        Join Room
+      </button>
     </form>
-</body>
-</html>
+  </div>
+</div>
+{% endblock %}
