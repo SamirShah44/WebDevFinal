@@ -10,7 +10,6 @@
 </head>
 <body class="min-h-screen flex flex-col bg-base-200">
 
-  <!-- Navbar -->
   <header class="navbar bg-base-100 px-4 py-2 shadow-md">
     <div class="flex-1">
       <a href="{% url 'lobby' %}" class="btn btn-ghost normal-case text-xl">
@@ -28,9 +27,13 @@
         </a>
       {% endif %}
     </div>
+    <div class="flex-2">
+      <a href="https://en.wikipedia.org/wiki/Teen_patti#Ranking_of_hands" class="btn btn-ghost normal-case text-xl">
+        Help
+      </a>
+    </div>
   </header>
 
-  <!-- Page Content -->
   <main class="flex-1 p-4">
     {% block content %}{% endblock %}
   </main>

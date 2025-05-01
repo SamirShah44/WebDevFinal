@@ -8,13 +8,19 @@
 
   <ul class="space-y-8">
     {% for p in players %}
-    <li class="flex items-start space-x-6 bg-base-100 p-4 rounded-lg shadow">
+    <li class="flex items-start space-x-6 p-4 rounded-lg shadow {% if p == winner %}bg-yellow-100 dark:bg-yellow-900 border-2 border-yellow-500{% else %}bg-base-100{% endif %}">
       <div class="flex flex-col items-center w-20">
         <div class="w-12 h-12 bg-base-200 rounded-full flex items-center justify-center text-2xl">
           {% if p.is_bot %}🤖{% else %}🧑{% endif %}
         </div>
         <span class="mt-2 text-sm font-medium">
-          {% if p.is_bot %}Bot {{ forloop.counter }}{% else %}{{ p.user.username }}{% endif %}
+          {% if p.is_bot %}
+            Bot {{ forloop.counter }}
+            {% if p == winner %} <span class="text-yellow-400 font-bold">🏆 Winner</span>{% endif %}
+          {% else %}
+            {{ p.user.username }}
+            {% if p == winner %} <span class="text-yellow-400 font-bold">🏆 Winner</span>{% endif %}
+          {% endif %}
         </span>
       </div>
 

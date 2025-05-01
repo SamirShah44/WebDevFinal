@@ -4,9 +4,9 @@
 {% block title %}Reveal & Bet | Teen Patti{% endblock %}
 {% block content %}
 <div class="container mx-auto py-8">
-  <h1 class="text-3xl font-bold mb-6 text-center">Place Your Bet (30 sec)</h1>
+  <h1 class="text-3xl font-bold mb-6 text-center">Place Your Bet (15 sec)</h1>
   <div class="text-center text-lg font-semibold mb-6">
-    Time left: <span id="timer">30</span> seconds
+    Time left: <span id="timer">15</span> seconds
   </div>
 
   <ul class="space-y-6">
@@ -70,7 +70,7 @@
 </div>
 
 <script>
-  let seconds = 5;
+  let seconds = 15;
   const timer = document.getElementById("timer");
   const countdown = setInterval(() => {
     seconds -= 1;
