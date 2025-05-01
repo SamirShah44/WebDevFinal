@@ -20,6 +20,10 @@ class Player(models.Model):
     is_bot = models.BooleanField(default=False)
     score = models.IntegerField(default=0)
 
+    balance = models.IntegerField(default=200)      
+    bet_amount = models.IntegerField(default=0)     
+    has_bet = models.BooleanField(default=False)
+
 class GameHistory(models.Model):
     room = models.ForeignKey(GameRoom, on_delete=models.CASCADE)
     winner = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True)

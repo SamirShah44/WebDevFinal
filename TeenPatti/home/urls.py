@@ -14,5 +14,8 @@ urlpatterns = [
     path('logout/', views.auth_logout, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('add-bot/<str:room_code>/', views.add_bot, name='add_bot'),
+    path('bet/<str:room_code>/', views.bet_phase, name='bet_phase'),
+    path('final_reveal/<str:room_code>/', views.final_reveal, name='final_reveal'),
+    path('add-coins/', views.add_coins, name='add_coins'),
 
 ]

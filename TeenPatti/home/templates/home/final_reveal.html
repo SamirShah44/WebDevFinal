@@ -1,0 +1,56 @@
+{% extends "home/base.html" %}
+{% load static card_svg %}
+
+{% block title %}Final Results | Teen Patti{% endblock %}
+{% block content %}
+<div class="container mx-auto py-8">
+  <h1 class="text-3xl font-bold mb-6">Final Results</h1>
+
+  <ul class="space-y-8">
+    {% for p in players %}
+    <li class="flex items-start space-x-6 bg-base-100 p-4 rounded-lg shadow">
+      <div class="flex flex-col items-center w-20">
+        <div class="w-12 h-12 bg-base-200 rounded-full flex items-center justify-center text-2xl">
+          {% if p.is_bot %}🤖{% else %}🧑{% endif %}
+        </div>
+        <span class="mt-2 text-sm font-medium">
+          {% if p.is_bot %}Bot {{ forloop.counter }}{% else %}{{ p.user.username }}{% endif %}
+        </span>
+      </div>
+
+      <div class="flex gap-2">
+        {% for c in p.card %}
+          {% card_svg c 48 72 %}
+        {% endfor %}
+      </div>
+
+      <div class="ml-auto text-lg font-semibold">
+        Score: {{ p.score }}<br>
+        Bet: {{ p.bet_amount }}<br>
+        Balance: {{ p.balance }}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <h3 class="mt-6 text-xl font-bold">
+    🏆 Winner: 
+    {% if winner.is_bot %}🤖 Bot
+    {% elif winner.user == request.user %}🧑 You
+    {% else %}{{ winner.user.email }}
+    {% endif %}
+  </h3>
+
+  <div class="mt-6 flex flex-wrap gap-4">
+    <a href="{% url 'start_game' room_code=room_code %}" class="btn btn-primary">
+      🔁 Play Again
+    </a>
+    <a href="{% url 'reset_score' room_code=room_code %}" class="btn btn-warning">
+      🧹 Reset Scores
+    </a>
+    <a href="{% url 'lobby' %}" class="btn btn-outline">
+      🏠 Back to Lobby
+    </a>
+  </div>
+</div>
+{% endblock %}
