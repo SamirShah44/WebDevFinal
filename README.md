@@ -7,6 +7,7 @@ A full-stack multiplayer card game inspired by Teen Patti built using Django, Po
 🔹 1. Clone the repo:
 
 git clone https://github.com/SamirShah44/WebDevFinal.git
+
 cd WebDevFinal
 
 🔹 2. Create .env file
